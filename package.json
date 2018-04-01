@@ -19,9 +19,16 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.5",
+    "@fortawesome/fontawesome-free-solid": "^5.0.9",
+    "@fortawesome/fontawesome-svg-core": "^1.2.0-10",
+    "@fortawesome/free-solid-svg-icons": "^5.1.0-7",
+    "@fortawesome/react-fontawesome": "0.1.0-8",
     "expo": "^26.0.0",
+    "exponent": "^14.0.0",
     "react": "16.3.0-alpha.1",
     "react-native": "0.54.0",
-    "react-native-communications": "^2.2.1"
+    "react-native-communications": "^2.2.1",
+    "react-native-fontawesome": "^5.7.0"
   }
 }
