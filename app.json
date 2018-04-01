@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "Starboard",
+    "icon": "./images/steer.png",
+    "version": "0.0.1",
+    "slug": "starboard-writing-app",
+    "sdkVersion": "26.0.0",
+    "ios": {
+      "bundleIdentifier": "com.watzthis.starboard"
+    },
+    "android": {
+      "package": "com.watzthis.starboard"
+    }
+  }
+}
