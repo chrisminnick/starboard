@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Alert, AppRegistry, Platform, StyleSheet, Text, TouchableHighlight, View, Image } from 'react-native';
 import Communications from 'react-native-communications';
+import {team} from './config.js';
 
 export default class Touchables extends Component {
     _onPressButton() {
-        Communications.text('9167305777','I\'m Writing!')
+        Communications.text(team.member.memberTel,'I\'m Writing!')
     }
 
     _onLongPressButton() {
