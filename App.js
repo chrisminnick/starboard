@@ -4,7 +4,7 @@ import Communications from 'react-native-communications';
 import {team} from './config.js';
 import { FontAwesome } from '@expo/vector-icons';
 
-export default class Touchables extends Component {
+export default class Starboard extends Component {
 
 
     _onPressButton() {
