@@ -8,3 +8,5 @@ your shipmate on your voyage to writing more!
 Every time you start writing, open the app and click the "I'm Writing" button.
 A text message will be prepared and will open in your messaging app, addressed 
 to your writing shipmate. Send the message and start writing!
+
+TODO: figure out why asyncstorage isn't working.
