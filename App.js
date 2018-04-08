@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, AsyncStorage, AppRegistry, Image, Modal, Platform, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 import Communications from 'react-native-communications';
-import ConfigureModal from './components/ConfigureModal';
-import {team} from './config.js';
 import { FontAwesome } from '@expo/vector-icons';
 
 export default class Starboard extends Component {
