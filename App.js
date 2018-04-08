@@ -17,15 +17,19 @@ constructor(props){
 
     this.state = {
         modalVisible: false,
-        myKey: 'Set a contact'
+        myKey: ''
     };
 }
+
+    async componentDidMount() {
+        this.getKey();
+    }
 
     _onPressButton() {
         Communications.text(this.state.myKey,'I\'m Writing!')
     }
 
-    setModalVisible(visible) {
+    setModalVisible(visible=false) {
         this.setState({modalVisible: visible});
     }
 
@@ -44,7 +48,7 @@ constructor(props){
     async saveKey(value) {
         try {
             await AsyncStorage.setItem('@MySuperStore:key', value);
-
+            this.setState({myKey: value});
         } catch (error) {
             console.log("Error saving data" + error);
         }
@@ -67,8 +71,11 @@ constructor(props){
                             <TextInput
                                 style={{height: 40}}
                                 placeholder="Phone Number"
-                                onSubmitEditing={(myKey) => this.saveKey(myKey)}
-                                onChangeText={(myKey) => this.setState({myKey})}
+                                value={this.state.myKey}
+                                onChangeText={(value) => this.saveKey(value)}
+                                onSubmitEditing={() => {
+                                    this.setModalVisible(false);
+                                }}
                             />
                             <TouchableHighlight
                                 onPress={() => {
@@ -84,7 +91,7 @@ constructor(props){
                        style={{width: 200, height: 200}} />
                 <Text style={styles.heading}>Ahoy!</Text>
                 <Text style={styles.bodytext}>It's time to write.</Text>
-                <Text style={styles.bodytext}>Press the button to notify your writing crew({this.state.myKey}).</Text>
+                <Text style={styles.bodytext}>Press the button to notify your writing crew({this.state.myKey ? this.state.myKey : "None Configured"}).</Text>
                 <TouchableHighlight
                     onPress={this._onPressButton}
                 >
@@ -102,13 +109,7 @@ constructor(props){
 
                 </TouchableHighlight>
 
-                <Button
-                    style={styles.formButton}
-                    onPress={this.getKey}
-                    title="Get Key"
-                    color="#2196f3"
-                    accessibilityLabel="Get Key"
-                />
+
             </View>
         );
     }
