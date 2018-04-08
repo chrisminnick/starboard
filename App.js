@@ -1,5 +1,6 @@
+import 'expo';
 import React, { Component } from 'react';
-import { Alert, AsyncStorage, AppRegistry, Image, Modal, Platform, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { Alert, AsyncStorage, AppRegistry, Button, Image, Modal, Platform, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 import Communications from 'react-native-communications';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -16,7 +17,7 @@ constructor(props){
 
     this.state = {
         modalVisible: false,
-        myKey:'set a number'
+        myKey: 'Set a contact'
     };
 }
 
@@ -35,7 +36,6 @@ constructor(props){
         try {
             const value = await AsyncStorage.getItem('@MySuperStore:key');
             this.setState({myKey: value});
-
         } catch (error) {
             console.log("Error retrieving data" + error);
         }
@@ -44,19 +44,14 @@ constructor(props){
     async saveKey(value) {
         try {
             await AsyncStorage.setItem('@MySuperStore:key', value);
-            this.setState(
-                {
-                    myKey: value,
-                });
-            this.setModalVisible(false);
 
         } catch (error) {
-
-            this.setModalVisible(false);
-
-            //console.log("Error saving data" + error);
+            console.log("Error saving data" + error);
         }
+
+
     }
+
     render() {
         return (
             <View style={styles.container}>
@@ -107,7 +102,13 @@ constructor(props){
 
                 </TouchableHighlight>
 
-
+                <Button
+                    style={styles.formButton}
+                    onPress={this.getKey}
+                    title="Get Key"
+                    color="#2196f3"
+                    accessibilityLabel="Get Key"
+                />
             </View>
         );
     }
