@@ -26,7 +26,7 @@ constructor(props){
 
     async componentDidMount() {
         await this.getKey();
-        if (!this.state.myKeys){
+        if (!this.state.myKey){
             this._setModalVisible(true);
         }
     }
