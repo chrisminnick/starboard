@@ -110,7 +110,7 @@ constructor(props){
                        style={{width: 200, height: 200}} />
                 <Text style={styles.heading}>{"Starboard!".toUpperCase()}</Text>
                 <Text style={styles.subHeading}>'tis th' write way.</Text>
-                <Text style={styles.bodytext}>Yer writin' crew: {"\n"}({this.state.myKey ? this.state.myKey : "None Configured. Click the gear icon."}).</Text>
+                <Text style={styles.bodytext}>Yer writin' crew: {"\n"}({this.state.myKey ? this.state.myKey : "None Configured. Click th' gear icon."}).</Text>
                 <TouchableHighlight
                     onPress={this._onPressButton}
                 >
