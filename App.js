@@ -51,6 +51,7 @@ constructor(props){
         <View style={styles.modalContent}>
 
                 <Text style={styles.modalHeading}>Configure Starboard</Text>
+                <Image source={require('./images/animated-pirate-image-0043.gif')} />
                 <Text style={styles.bodytext}>Enter the phone number you'd like to
                 send a text message to when you click the "I'm Writing" button.</Text>
                 <TextInput
@@ -93,10 +94,13 @@ constructor(props){
                 <Modal
                     backdropColor={"black"}
                     backdropOpacity={1}
+                    animationIn={"slideInDown"}
+                    animationOut={"slideOutUp"}
                     animationInTiming={300}
                     animationOutTiming={300}
                     backdropTransitionInTiming={1000}
                     backdropTransitionOutTiming={1000}
+                    avoidKeyboard={true}
                     isVisible={this.state.modalVisible}
                     >
                     {this._renderModalContent()}

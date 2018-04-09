@@ -34,7 +34,6 @@ export const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: "#dadada",
         padding: 10,
-        justifyContent: "center",
         alignItems: "center",
         borderRadius: 4,
         borderColor: "rgba(0, 0, 0, 0.1)"
