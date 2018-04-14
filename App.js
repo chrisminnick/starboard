@@ -32,7 +32,7 @@ constructor(props){
     }
 
     _onPressButton() {
-        Communications.text(this.state.myKey,'I be Writin\'!')
+        Communications.text(this.state.myKey,'I Arr Writin\'!')
     }
 
     _setModalVisible(visible=false) {
@@ -52,7 +52,7 @@ constructor(props){
 
                 <Text style={styles.modalHeading}>Configure Starboard</Text>
                 <Image source={require('./images/animated-pirate-image-0043.gif')} />
-                <Text style={styles.bodytext}>Enter th' phone number ye'd like t' send a text message t' when ye skewer th' "I be Writin'" button.</Text>
+                <Text style={styles.bodytext}>Enter th' phone number ye'd like t' send a text message t' when ye skewer th' "I Arr Writin'" button.</Text>
                 <TextInput
                     style={styles.configInput}
                     autoFocus ="true"
@@ -115,7 +115,7 @@ constructor(props){
                     onPress={this._onPressButton}
                 >
                     <View style={styles.button}>
-                        <Text style={styles.buttonText}>I be Writin'!</Text>
+                        <Text style={styles.buttonText}>I Arr Writin'!</Text>
                     </View>
                 </TouchableHighlight>
 
