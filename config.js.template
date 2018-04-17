@@ -1,5 +1,0 @@
-export const team = {
-    memberName:'Bill',
-    memberEmail: 'bill@starboard-app.com',
-    memberTel: '5555555555'
-};

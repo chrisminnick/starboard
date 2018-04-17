@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Alert, AsyncStorage, AppRegistry, Button, Image, Platform, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import Communications from 'react-native-communications';
 import Modal from 'react-native-modal';
-import { FontAwesome } from '@expo/vector-icons';
+import FontAwesome from '@expo/vector-icons';
 import {styles} from './App.style';
 
 export default class Starboard extends Component {
