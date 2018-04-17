@@ -1,27 +1,24 @@
 import {StyleSheet} from "react-native";
 
 export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    heading: {
-        fontSize: 36,
-        color: 'red'
-    },
-    subHeading: {
+    bodytext: {
         fontSize: 18,
-        color: '#000',
-        marginTop: 10,
-        marginBottom: 10,
-        fontStyle: 'italic'
+        paddingLeft: 20,
+        paddingRight: 20
     },
-
-    bottomModal: {
-        justifyContent: "flex-end",
-        margin: 0
+    modalHeading: {
+        fontSize: 18,
+        color: '#333',
+        fontWeight:'bold',
+        padding: 10,
+        width: '100%',
+    },
+    modalContent: {
+        backgroundColor: "#dadada",
+        padding: 10,
+        alignItems: "center",
+        borderRadius: 4,
+        borderColor: "rgba(0, 0, 0, 0.1)"
     },
     button: {
         marginBottom: 20,
