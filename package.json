@@ -30,6 +30,7 @@
     "react-native": "0.54.0",
     "react-native-communications": "^2.2.1",
     "react-native-fontawesome": "^5.7.0",
-    "react-native-modal": "^5.4.0"
+    "react-native-modal": "^5.4.0",
+    "watchman": "^1.0.0"
   }
 }

@@ -1,7 +1,9 @@
 import 'expo';
 import React, { Component } from 'react';
-import { Alert, AsyncStorage, AppRegistry, Button, Image, Platform, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import Communications from 'react-native-communications';
+import {
+    Alert, AsyncStorage, AppRegistry, Button, Image, Linking, Platform, StyleSheet, Text, TextInput,
+    TouchableHighlight, TouchableOpacity, View, Share
+} from 'react-native';
 import ConfigModal from './components/ConfigModal';
 import {FontAwesome} from '@expo/vector-icons';
 import {styles} from './App.style';
@@ -15,43 +17,74 @@ constructor(props){
     this._setModalVisible = this._setModalVisible.bind(this);
     this.getKey = this.getKey.bind(this);
     this.saveKey = this.saveKey.bind(this);
+    this.getTotal = this.getTotal.bind(this);
 
     this.state = {
         modalVisible: false,
-        myKey: '',
+        sprint: '',
+        totalwords: 0,
         writing: false
     };
 }
 
     async componentDidMount() {
-        await this.getKey();
-        if (!this.state.myKey){
+        const totalwords = await this.getTotal();
+        this.setState({totalwords:totalwords});
+        if(!this.state.sprint){
             this._setModalVisible(true);
         }
     }
 
-    _onPressButton() {
-        this.setState({writing: !this.state.writing}); //todo: make async so the next line works
-        Communications.text(this.state.myKey,'I Arr Writin\'!' + this.state.writing);
-    }
-
-    _setModalVisible(visible=false) {
-        this.setState({modalVisible: visible});
-    }
-
-    async getKey() {
+    async getTotal() {
         try {
-            const value = await AsyncStorage.getItem('@MySuperStore:key');
-            this.setState({myKey: value});
+            const total = await AsyncStorage.getItem('@StarboardApp:total');
+            this.setState({totalwords: parseInt(total)});
         } catch (error) {
             console.log("Error retrieving data" + error);
         }
     }
 
-    async saveKey(value) {
+    async _onPressButton() {
+        await this.setState({writing: !this.state.writing});
+        if(!this.state.writing){
+            Share.share({
+                message: 'I Arr Writin\'. #StarboardApp #TheWriteWay',
+                url: 'http://starboardwrite.com',
+                title: "I'm startin' a Sprint."
+            });
+        } else {
+            this._setModalVisible(true);
+        }
+    }
+
+    async _setModalVisible(visible=false) {
+        await this.setState({modalVisible: visible});
+        if(visible===false) {
+            let total = parseInt(this.state.totalwords) + parseInt(this.state.sprint);
+            this.setState({totalwords:total});
+            //await AsyncStorage.setItem('@StarboardApp:total', total );
+            Share.share({
+                message: 'I finished a sprint with Starboard. Words written: ' + this.state.sprint + '. #StarboardApp #TheWriteWay',
+                url: 'http://starboardwrite.com',
+                title: "I finished a sprint."
+            });
+        }
+    }
+
+    async getKey() {
         try {
-            await AsyncStorage.setItem('@MySuperStore:key', value);
-            this.setState({myKey: value});
+            const sprint = await AsyncStorage.getItem('@StarboardApp:sprint');
+            this.setState({sprint: sprint});
+        } catch (error) {
+            console.log("Error retrieving data" + error);
+        }
+    }
+
+    async saveKey(sprint) {
+        try {
+            await AsyncStorage.setItem('@StarboardApp:sprint', sprint);
+
+            this.setState({sprint: sprint});
         } catch (error) {
             console.log("Error saving data" + error);
         }
@@ -64,7 +97,7 @@ constructor(props){
 
                 <ConfigModal
                     modalVisible = {this.state.modalVisible}
-                    myKey={this.state.myKey}
+                    myKey={this.state.sprint}
                     saveKey={this.saveKey}
                     _setModalVisible={this._setModalVisible}
                 />
@@ -73,13 +106,19 @@ constructor(props){
                        style={{width: 200, height: 200}} />
                 <Text style={styles.heading}>{"Starboard!".toUpperCase()}</Text>
                 <Text style={styles.subHeading}>'tis th' write way.</Text>
-                <Text style={styles.bodytext}>Yer writin' crew: {"\n"}({this.state.myKey ? this.state.myKey : "None Configured. Click th' gear icon."}).</Text>
-
+                <Text style={styles.bodytext}>Yer most recent sprint: {this.state.sprint ? this.state.sprint + " words" : "You haven't done any sprints yet. Get writin'!"}.</Text>
+                <Text style={styles.bodytext}>Yer total words so far: {this.state.totalwords}</Text>
                 <TouchableHighlight
                     onPress={this._onPressButton}
                 >
                     <View style={styles.button}>
-                        <Text style={styles.buttonText}>I Arr Writin'!</Text>
+
+                            { this.state.writing?
+                                <Text style={styles.buttonText}>I Arr Writin'!</Text>:
+
+                                <Text style={styles.buttonText}>I Arr Done Writin'!</Text>
+                            }
+
                     </View>
                 </TouchableHighlight>
 

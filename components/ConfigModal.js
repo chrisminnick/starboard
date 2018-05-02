@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Alert, AsyncStorage, AppRegistry, Button, Image, Platform, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import {
+    Alert, AsyncStorage, AppRegistry, Button, Image, Platform, Share, StyleSheet, Text, TextInput, TouchableHighlight,
+    TouchableOpacity, View, Linking
+} from 'react-native';
 import Modal from 'react-native-modal';
 
 import {styles} from "./ConfigModal.style";
@@ -23,13 +26,13 @@ class ConfigModal extends Component {
 
                 <Text style={styles.modalHeading}>Configure Starboard</Text>
                 <Image source={require('../images/animated-pirate-image-0043.gif')} />
-                <Text style={styles.bodytext}>Enter th' phone number ye'd like t' send a text message t' when ye skewer th' "I Arr Writin'" button.</Text>
+                <Text style={styles.bodytext}>Congratulations on finishing a sprint! How many words did ye' write?</Text>
                 <TextInput
                     style={styles.configInput}
                     autoFocus ="true"
-                    keyboardType="phone-pad"
-                    placeholder="Phone Number"
-                    value={this.props.myKey}
+                    keyboardType="number"
+                    placeholder="Words"
+                    value={this.props.sprint}
                     onChangeText={(value) => this.props.saveKey(value)}
                     onSubmitEditing={() => {
                         this.props._setModalVisible(false);
