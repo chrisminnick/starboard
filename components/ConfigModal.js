@@ -8,6 +8,15 @@ import Modal from 'react-native-modal';
 import {styles} from "./ConfigModal.style";
 
 class ConfigModal extends Component {
+    constructor(props){
+        super(props);
+        //this.handleSubmitClick=this.handleSubmitClick.bind(this);
+    }
+
+    handleSubmitClick = () => {
+        if(!this.props.sprint){var number = 0} else {number = this.props.sprint}
+        this.props._setModalVisible(false,number)
+    };
     render(){
         return(
             <Modal
@@ -30,17 +39,12 @@ class ConfigModal extends Component {
                 <TextInput
                     style={styles.configInput}
                     autoFocus ="true"
-                    keyboardType="number"
-                    placeholder="Words"
-                    value={this.props.sprint}
+                    keyboardType="numeric"
+                    placeholder="Words Written"
+                    value={"0"}
                     onChangeText={(value) => this.props.saveKey((value))}
-                    onSubmitEditing={() => {
-                        this.props._setModalVisible(false);
-                        if(!this.value){this.value = 0}
-                        this.props.saveKey(value);
-                    }}
                 />
-                <TouchableOpacity onPress={() => this.props._setModalVisible(false)}>
+                <TouchableOpacity onPress={() => this.handleSubmitClick()}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>Save</Text>
                     </View>

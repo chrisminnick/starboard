@@ -21,7 +21,7 @@ constructor(props){
 
     this.state = {
         modalVisible: false,
-        sprint: '',
+        sprint: "0",
         totalwords: 0,
         writing: false
     };
@@ -36,7 +36,7 @@ constructor(props){
 
     async getTotal() {
         try {
-            let total = await AsyncStorage.getItem('totalwords');
+            let total = await AsyncStorage.getItem('@StarboardApp:totalwords');
             if (!total) {
                 total = 0;
             }
@@ -59,10 +59,14 @@ constructor(props){
         }
     }
 
-    async _setModalVisible(visible=false) {
+    async _setModalVisible(visible=false,sprint) {
         await this.setState({modalVisible: visible});
+        await this.setState({sprint: parseInt(sprint)});
+
         if(visible===false) {
-            let total = parseInt(this.state.totalwords) + parseInt(this.state.sprint);
+            let total;
+            if (!this.state.totalwords){total=0;}
+            total = parseInt(this.state.totalwords) + parseInt(this.state.sprint);
             this.setState({totalwords:total});
             Share.share({
                 message: 'I finished a sprint with Starboard. Words written: ' + this.state.sprint + '. #StarboardApp #TheWriteWay',
@@ -74,7 +78,7 @@ constructor(props){
 
     async getKey() {
         try {
-            const sprint = await AsyncStorage.getItem('sprint');
+            const sprint = await AsyncStorage.getItem('@StarboardApp:sprint');
             this.setState({sprint: sprint});
         } catch (error) {
             console.log("Error retrieving data" + error);
@@ -83,8 +87,7 @@ constructor(props){
 
     async saveKey(sprint) {
         try {
-            await AsyncStorage.setItem('sprint', sprint);
-            await AsyncStorage.setItem('total', this.state.totalwords + sprint);
+            await AsyncStorage.multiSet([['@StarboardApp:sprint', sprint], ['@StarboardApp:total', this.state.totalwords + sprint]]);
 
 
             this.setState({sprint: sprint});
@@ -100,7 +103,7 @@ constructor(props){
 
                 <ConfigModal
                     modalVisible = {this.state.modalVisible}
-                    myKey={this.state.sprint}
+                    sprint={this.state.sprint}
                     saveKey={this.saveKey}
                     _setModalVisible={this._setModalVisible}
                 />
@@ -109,7 +112,6 @@ constructor(props){
                        style={{width: 200, height: 200}} />
                 <Text style={styles.heading}>{"Starboard!".toUpperCase()}</Text>
                 <Text style={styles.subHeading}>'tis th' write way.</Text>
-                <Text style={styles.bodytext}>Yer most recent sprint: {this.state.sprint ? this.state.sprint + " words" : "You haven't done any sprints yet. Get writin'!"}.</Text>
                 <Text style={styles.bodytext}>Yer total words so far: {this.state.totalwords}</Text>
                 <TouchableHighlight
                     onPress={this._onPressButton}
