@@ -28,8 +28,7 @@ constructor(props){
 }
 
     async componentDidMount() {
-        const totalwords = await this.getTotal();
-        this.setState({totalwords:totalwords});
+        await this.getTotal();
         if(!this.state.sprint){
             this._setModalVisible(true);
         }
@@ -37,7 +36,10 @@ constructor(props){
 
     async getTotal() {
         try {
-            const total = await AsyncStorage.getItem('@StarboardApp:total');
+            let total = await AsyncStorage.getItem('totalwords');
+            if (!total) {
+                total = 0;
+            }
             this.setState({totalwords: parseInt(total)});
         } catch (error) {
             console.log("Error retrieving data" + error);
@@ -62,7 +64,6 @@ constructor(props){
         if(visible===false) {
             let total = parseInt(this.state.totalwords) + parseInt(this.state.sprint);
             this.setState({totalwords:total});
-            //await AsyncStorage.setItem('@StarboardApp:total', total );
             Share.share({
                 message: 'I finished a sprint with Starboard. Words written: ' + this.state.sprint + '. #StarboardApp #TheWriteWay',
                 url: 'http://starboardwrite.com',
@@ -73,7 +74,7 @@ constructor(props){
 
     async getKey() {
         try {
-            const sprint = await AsyncStorage.getItem('@StarboardApp:sprint');
+            const sprint = await AsyncStorage.getItem('sprint');
             this.setState({sprint: sprint});
         } catch (error) {
             console.log("Error retrieving data" + error);
@@ -82,7 +83,9 @@ constructor(props){
 
     async saveKey(sprint) {
         try {
-            await AsyncStorage.setItem('@StarboardApp:sprint', sprint);
+            await AsyncStorage.setItem('sprint', sprint);
+            await AsyncStorage.setItem('total', this.state.totalwords + sprint);
+
 
             this.setState({sprint: sprint});
         } catch (error) {

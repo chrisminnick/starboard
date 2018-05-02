@@ -33,9 +33,11 @@ class ConfigModal extends Component {
                     keyboardType="number"
                     placeholder="Words"
                     value={this.props.sprint}
-                    onChangeText={(value) => this.props.saveKey(value)}
+                    onChangeText={(value) => this.props.saveKey((value))}
                     onSubmitEditing={() => {
                         this.props._setModalVisible(false);
+                        if(!this.value){this.value = 0}
+                        this.props.saveKey(value);
                     }}
                 />
                 <TouchableOpacity onPress={() => this.props._setModalVisible(false)}>
