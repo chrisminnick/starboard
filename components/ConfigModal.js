@@ -15,7 +15,7 @@ class ConfigModal extends Component {
 
     handleSubmitClick = () => {
         if(!this.props.sprint){var number = 0} else {number = this.props.sprint}
-        this.props._setModalVisible(false,number)
+        this.props._setModalVisible(false,number);
     };
     render(){
         return(
