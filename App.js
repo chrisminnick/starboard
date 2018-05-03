@@ -16,7 +16,9 @@ constructor(props){
     super(props);
 
     this.onPressButton = this.onPressButton.bind(this);
-    this.openModal = this.openModal.bind(this);
+    this.openStartModal = this.openStartModal.bind(this);
+    this.openEndModal = this.openEndModal.bind(this);
+
     this.closeModal = this.closeModal.bind(this);
     this.getKey = this.getKey.bind(this);
     this.setTotal = this.setTotal.bind(this);
@@ -57,19 +59,22 @@ constructor(props){
     }
     async onPressButton() {
         await this.setState({writing: !this.state.writing});
-        this.openModal();
-    }
-
-    openModal(){
-        if(!this.state.writing){
-            this.setState({endModalVisible: true})
+        if(this.state.writing) {
+            this.openStartModal();
         } else {
-            this.setState({startModalVisible: true});
+            this.openEndModal();
         }
     }
+
+    openStartModal(){
+        this.setState({startModalVisible: true});
+    }
+    openEndModal(){
+        this.setState({endModalVisible: true})
+    }
     closeModal(){
-            this.setState({startModalVisible: false});
-            this.setState({endModalVisible: false})
+        this.setState({startModalVisible: false});
+        this.setState({endModalVisible: false})
     }
 
     async setModalVisible(visible=false,sprint) {
@@ -111,7 +116,7 @@ constructor(props){
                     closeModal={this.closeModal}
                 />
                 <EndModal
-                    modalVisible = {this.state.startModalVisible}
+                    modalVisible = {this.state.endModalVisible}
                     totalWords={this.state.totalWords}
                     setTotal={this.setTotal}
                     closeModal={this.closeModal}
@@ -121,7 +126,6 @@ constructor(props){
                 <Text style={styles.heading}>{"Starboard!".toUpperCase()}</Text>
                 <Text style={styles.subHeading}>'tis th' write way.</Text>
                 <Text style={styles.bodytext}>Yer total words so far: {this.state.totalWords}</Text>
-                <Text style={styles.bodytext}>Writing State: {String(this.state.writing)}</Text>
 
                 <TouchableHighlight
                     onPress={this.onPressButton}
