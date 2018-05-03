@@ -9,6 +9,8 @@ import {styles} from "./ConfigModal.style";
 
 class StartModal extends Component {
 
+
+
     render(){
         return(
             <Modal
@@ -30,17 +32,23 @@ class StartModal extends Component {
                 <Text style={styles.bodytext}>Ahoy! How many words be ya starting this sprint with in the bank?</Text>
                 <TextInput
                     style={styles.configInput}
-                    autoFocus ="true"
+                    autoFocus ={true}
                     keyboardType="numeric"
                     placeholder="Total Words"
                     value={this.props.totalWords}
                     onChangeText={(value) => this.props.setTotal(value)}
                 />
-                <TouchableOpacity onPress={() => this.props.closeModal()}>
+
+                <TouchableOpacity onPress={() => this.props.startSprint()}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>Save</Text>
                     </View>
                 </TouchableOpacity>
+
+
+                <View>
+                    <Text>{JSON.stringify(this.props.sprintData)}</Text>
+                </View>
             </View>
             </Modal>
         )

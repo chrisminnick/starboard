@@ -30,13 +30,13 @@ class EndModal extends Component {
                     <Text style={styles.bodytext}>Ahoy! How many words ya got in the bank now?</Text>
                     <TextInput
                         style={styles.configInput}
-                        autoFocus ="true"
+                        autoFocus ={true}
                         keyboardType="numeric"
                         placeholder="Total Words"
                         value={this.props.totalWords}
                         onChangeText={(value) => this.props.setTotal(value)}
                     />
-                    <TouchableOpacity onPress={() => this.props.closeModal()}>
+                    <TouchableOpacity onPress={() => this.props.endSprint()}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>Save</Text>
                         </View>
