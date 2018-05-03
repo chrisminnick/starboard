@@ -40,21 +40,25 @@ constructor(props){
 }
 
     async componentDidMount() {
-        await this.getSprintData();
+        await this.getTotalData();
     }
 
-
-    async getSprintData() {
+    async getTotalData() {
+        let total = await AsyncStorage.getItem('totalWords');
+        if (!total) {
+            total = "0";
+        }
+        this.getSprintData(total);
+    }
+    async getSprintData(total) {
+    //something is funky here. Either it's not saving sprints to local storage or its not getting them from the storage
+    //sprints data isn't persisting between loads of the app
         try {
-            let total = await AsyncStorage.getItem('totalWords');
-
             let sprints = await AsyncStorage.getItem('sprints');
             if (!sprints){
                 var sprints = [{start:Date.now(),end:Date.now(),words:0}];
             }
-            if (!total) {
-                total = "0";
-            }
+
             this.setState({sprints: sprints,totalWords:total});
         } catch (error) {
             console.log("Error retrieving data" + error);
@@ -62,12 +66,7 @@ constructor(props){
     }
 
     async setSprintData(lastsprint) {
-        try {
-            await AsyncStorage.setItem('sprints', JSON.stringify(this.state.sprints));
-
-        } catch (error) {
-            console.log("Error saving data" + error);
-        }
+        await AsyncStorage.setItem('sprints', JSON.stringify(this.state.sprints));
     }
 
     async setTotal(total) {
@@ -113,10 +112,17 @@ constructor(props){
     }
 
     async updateSprintsArray(){
-        this.setState({ sprints: [...this.state.sprints, this.state.lastsprint], endModalVisible: false })
+        await this.setState({ sprints: [...this.state.sprints, this.state.lastsprint], endModalVisible: false });
+        this.shareSprint();
     }
 
-
+    async shareSprint(){
+        Share.share({
+            message: 'I finished a sprint with Starboard. Words written: ' + this.state.lastSprintWords + '. #StarboardApp #TheWriteWay',
+            url: 'http://starboardwrite.com',
+            title: "I finished a sprint."
+        });
+    }
 
 
     async setModalVisible(visible=false,sprint) {
