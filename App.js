@@ -42,24 +42,14 @@ constructor(props){
         let sprints = await AsyncStorage.getItem('sprints');
 
         let total = await AsyncStorage.getItem('totalWords');
-
-        await this.setState({sprints:JSON.parse(sprints),totalWords:total});
-    }
-
-/*    async getTotalData() {
-        let total = await AsyncStorage.getItem('totalWords');
         if (!total) {
             total = "0";
         }
-        return total;
-    }
-    async getSprintData() {
-        let sprints = await AsyncStorage.getItem('sprints');
         if (!sprints) {
             sprints = [{start:Date.now(),end:Date.now(),words:0}];
         }
-        return sprints;
-    }*/
+        await this.setState({sprints:JSON.parse(sprints),totalWords:total});
+    }
 
     async setSprintData() {
         await AsyncStorage.setItem('sprints', JSON.stringify(this.state.sprints));
@@ -110,14 +100,22 @@ constructor(props){
     }
 
     async shareSprint(){
+        var sprintDuration = ((this.state.lastSprintEnd - this.state.lastSprintStart)/1000/60).toFixed(2);
+
         Share.share({
-            message: 'I finished a sprint with Starboard. Words written: ' + this.state.lastSprintWords + '. #StarboardApp #TheWriteWay',
+            message: 'I finished a sprint with Starboard. Duration: ' + sprintDuration +
+                ' minutes. Words written: ' + this.state.lastSprintWords + '. #StarboardApp #TheWriteWay',
             url: 'http://starboardwrite.com',
             title: "I finished a sprint."
         });
     }
 
+    getDuration(timestamp1, timestamp2) {
+        var difference = timestamp1 - timestamp2;
+        var hoursDifference = Math.floor(difference/1000/60/60);
 
+        return hoursDifference;
+    }
 
     render() {
         return (
