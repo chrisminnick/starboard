@@ -21,7 +21,6 @@ constructor(props){
     this.openEndModal = this.openEndModal.bind(this);
     this.startSprint = this.startSprint.bind(this);
     this.endSprint = this.endSprint.bind(this);
-    this.getSprintData = this.getSprintData.bind(this);
     this.setSprintData = this.setSprintData.bind(this);
     this.setTotal = this.setTotal.bind(this);
 
@@ -35,44 +34,42 @@ constructor(props){
         totalWords: "0",
         writing: false,
         lastsprint: undefined,
-        sprints:[]
+        sprints:[{start:Date.now(),end:Date.now(),words:0}]
     };
 }
 
     async componentDidMount() {
-        await this.getTotalData();
+        let sprints = await AsyncStorage.getItem('sprints');
+
+        let total = await AsyncStorage.getItem('totalWords');
+
+        await this.setState({sprints:JSON.parse(sprints),totalWords:total});
     }
 
-    async getTotalData() {
+/*    async getTotalData() {
         let total = await AsyncStorage.getItem('totalWords');
         if (!total) {
             total = "0";
         }
-        this.getSprintData(total);
+        return total;
     }
-    async getSprintData(total) {
-    //something is funky here. Either it's not saving sprints to local storage or its not getting them from the storage
-    //sprints data isn't persisting between loads of the app
-        try {
-            let sprints = await AsyncStorage.getItem('sprints');
-            if (!sprints){
-                var sprints = [{start:Date.now(),end:Date.now(),words:0}];
-            }
-
-            this.setState({sprints: sprints,totalWords:total});
-        } catch (error) {
-            console.log("Error retrieving data" + error);
+    async getSprintData() {
+        let sprints = await AsyncStorage.getItem('sprints');
+        if (!sprints) {
+            sprints = [{start:Date.now(),end:Date.now(),words:0}];
         }
-    }
+        return sprints;
+    }*/
 
-    async setSprintData(lastsprint) {
+    async setSprintData() {
         await AsyncStorage.setItem('sprints', JSON.stringify(this.state.sprints));
     }
 
     async setTotal(total) {
         try {
-            await AsyncStorage.setItem('totalWords',total);
-            this.setState({totalWords: total});
+            await AsyncStorage.setItem('totalWords',this.state.totalWords);
+            await this.setState({totalWords: total});
+
 
         } catch (error) {
             console.log("Error saving data" + error);
@@ -103,17 +100,13 @@ constructor(props){
     }
     async endSprint(value){
         await this.setState({lastSprintEnd: Date.now(),lastSprintWords: this.state.totalWords - this.state.lastSprintStartTotal});
-        this.updateLastSprint();
-    }
-
-    async updateLastSprint(){
         await this.setState({lastsprint: {start:this.state.lastSprintStart,end:this.state.lastSprintEnd,words:this.state.lastSprintWords}});
-        this.updateSprintsArray();
-    }
-
-    async updateSprintsArray(){
-        await this.setState({ sprints: [...this.state.sprints, this.state.lastsprint], endModalVisible: false });
+        await this.setState({ sprints: [...this.state.sprints, this.state.lastsprint]});
+        await this.setState({endModalVisible: false});
+        await this.setSprintData();
+        await this.setTotal(this.state.totalWords);
         this.shareSprint();
+
     }
 
     async shareSprint(){
@@ -125,22 +118,6 @@ constructor(props){
     }
 
 
-    async setModalVisible(visible=false,sprint) {
-        await this.setState({modalVisible: visible});
-        await this.setState({sprint: parseInt(sprint)});
-
-        if(visible===false) {
-            let total;
-            if (!this.state.totalwords){total=0;}
-            total = parseInt(this.state.totalwords) + parseInt(this.state.sprint);
-            this.setState({totalwords:total});
-            Share.share({
-                message: 'I finished a sprint with Starboard. Words written: ' + this.state.sprint + '. #StarboardApp #TheWriteWay',
-                url: 'http://starboardwrite.com',
-                title: "I finished a sprint."
-            });
-        }
-    }
 
     render() {
         return (
