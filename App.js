@@ -34,7 +34,11 @@ constructor(props){
         totalWords: "0",
         writing: false,
         lastsprint: undefined,
-        sprints:[{start:Date.now(),end:Date.now(),words:0}]
+        sprints:[{start:Date.now(),end:Date.now(),words:0}],
+        shortestSprint:0,
+        longestSprint:0,
+        totalSprints:0,
+        averageSprint:0
     };
 }
 
@@ -49,6 +53,7 @@ constructor(props){
             sprints = [{start:Date.now(),end:Date.now(),words:0}];
         }
         await this.setState({sprints:JSON.parse(sprints),totalWords:total});
+        this.calculateSprintStats();
     }
 
     async setSprintData() {
@@ -95,12 +100,14 @@ constructor(props){
         await this.setState({endModalVisible: false});
         await this.setSprintData();
         await this.setTotal(this.state.totalWords);
+        await this.calculateSprintStats();
+
         this.shareSprint();
 
     }
 
     async shareSprint(){
-        var sprintDuration = ((this.state.lastSprintEnd - this.state.lastSprintStart)/1000/60).toFixed(2);
+        var sprintDuration = (this.convertTimeToMinutes(this.state.lastSprintEnd - this.state.lastSprintStart));
 
         Share.share({
             message: 'I finished a sprint with Starboard. Duration: ' + sprintDuration +
@@ -110,11 +117,32 @@ constructor(props){
         });
     }
 
-    getDuration(timestamp1, timestamp2) {
-        var difference = timestamp1 - timestamp2;
-        var hoursDifference = Math.floor(difference/1000/60/60);
+    convertTimeToMinutes(timestamp){
+        return (timestamp/1000/60).toFixed(2);
+    }
 
-        return hoursDifference;
+    shortestSprint = arr => this.convertTimeToMinutes(Math.min(...arr));
+    longestSprint = arr => this.convertTimeToMinutes(Math.max(...arr));
+    totalSprints = arr => this.convertTimeToMinutes(arr.reduce((a,b) => a + b, 0));
+    averageSprint = arr => this.convertTimeToMinutes(arr.reduce((a,b) => a + b, 0) / arr.length);
+
+    calculateSprintStats(){
+
+        let sprintArray = this.state.sprints;
+
+        let sprintDurs = sprintArray.map(function(sprint){
+            return (sprint.end - sprint.start);
+        });
+
+
+
+        this.setState({
+            shortestSprint:this.shortestSprint(sprintDurs),
+            longestSprint:this.longestSprint(sprintDurs),
+            totalSprints:this.totalSprints(sprintDurs),
+            averageSprint:this.averageSprint(sprintDurs)
+        });
+
     }
 
     render() {
@@ -138,7 +166,12 @@ constructor(props){
                        style={{width: 200, height: 200}} />
                 <Text style={styles.heading}>{"Starboard!".toUpperCase()}</Text>
                 <Text style={styles.subHeading}>'tis th' write way.</Text>
-                <Text style={styles.bodytext}>Yer total words so far: {this.state.totalWords}</Text>
+                <Text style={styles.bodytext}>Yer total words so far: {this.state.totalWords} minutes</Text>
+                <Text style={styles.bodytext}>Yer shortest sprint: {this.state.shortestSprint} minutes</Text>
+                <Text style={styles.bodytext}>Yer longest sprint: {this.state.longestSprint} minutes</Text>
+                <Text style={styles.bodytext}>Yer average sprint length: {this.state.averageSprint} minutes</Text>
+                <Text style={styles.bodytext}>Yer total writin' time: {this.state.totalSprints} minutes</Text>
+
 
                 <TouchableHighlight
                     onPress={this.onPressButton}
