@@ -2,8 +2,8 @@
   "expo": {
     "name": "Starboard",
     "icon": "./images/steer.png",
-    "version": "0.0.5",
-    "description": "Starboard (the write way) is an app for writers to use to hold each other accountable. Just click the button when you start writing each day, and it will send a message to your writing crew, telling them you\'re writing.",
+    "version": "0.2.0",
+    "description": "Starboard (the write way) helps writers get more words written, faster.",
     "privacy": "public",
     "slug": "starboard-writing-app",
     "sdkVersion": "26.0.0",
