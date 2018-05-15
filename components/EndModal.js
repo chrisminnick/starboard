@@ -26,7 +26,7 @@ class EndModal extends Component {
                 <View style={styles.modalContent}>
 
                     <Text style={styles.modalHeading}>Welcome Back!</Text>
-                    <Image source={require('../images/animated-pirate-image-0043.gif')} />
+                    <Image source={require('../assets/images/animated-pirate-image-0043.gif')} />
                     <Text style={styles.bodytext}>Ahoy! How many words ya got in the bank now?</Text>
                     <TextInput
                         style={styles.configInput}

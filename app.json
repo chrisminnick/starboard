@@ -1,17 +1,27 @@
 {
   "expo": {
     "name": "Starboard",
-    "icon": "./images/steer.png",
-    "version": "0.2.0",
     "description": "Starboard (the write way) helps writers get more words written, faster.",
+    "slug": "starboard-write",
     "privacy": "public",
-    "slug": "starboard-writing-app",
-    "sdkVersion": "26.0.0",
-    "ios": {
-      "bundleIdentifier": "com.watzthis.starboard"
+    "sdkVersion": "27.0.0",
+    "platforms": ["ios", "android"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/steer.png",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
-    "android": {
-      "package": "com.watzthis.starboard"
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
     }
   }
 }

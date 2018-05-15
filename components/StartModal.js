@@ -28,7 +28,7 @@ class StartModal extends Component {
             <View style={styles.modalContent}>
 
                 <Text style={styles.modalHeading}>Start a Sprint</Text>
-                <Image source={require('../images/animated-pirate-image-0043.gif')} />
+                <Image source={require('../assets/images/animated-pirate-image-0043.gif')} />
                 <Text style={styles.bodytext}>Ahoy! How many words be ya starting this sprint with in the bank?</Text>
                 <TextInput
                     style={styles.configInput}
