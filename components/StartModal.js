@@ -47,7 +47,7 @@ class StartModal extends Component {
 
 
                 <View>
-                    <Text>{JSON.stringify(this.props.sprintData)}</Text>
+                    <Text>{/*JSON.stringify(this.props.sprintData)*/}</Text>
                 </View>
             </View>
             </Modal>
