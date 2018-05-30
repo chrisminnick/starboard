@@ -4,13 +4,13 @@ import { ExpoLinksView } from '@expo/samples';
 
 export default class LinksScreen extends React.Component {
   static navigationOptions = {
-    title: 'Links',
+    title: 'Log',
   };
 
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text>Coming Soon</Text>
+        <Text>{this.props.debug}</Text>
       </ScrollView>
     );
   }

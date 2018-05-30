@@ -21,7 +21,7 @@ export default class RootNavigation extends React.Component {
   }
 
   render() {
-    return <AppNavigator />;
+    return <AppNavigator debug = "testing"/>;
   }
 
   _registerForPushNotifications() {

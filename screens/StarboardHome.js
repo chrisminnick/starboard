@@ -49,13 +49,19 @@ export default class HomeScreen extends Component {
             shortestSprint:0,
             longestSprint:0,
             totalSprints:0,
-            averageSprint:0
+            averageSprint:0,
+            debug:'none'
         };
     }
 
     static navigationOptions = {
         header: null,
     };
+
+    static _showResult (result) {
+        let addDebug = this.state.debug + '\n' + result;
+        this.setState({debug:addDebug});
+    }
 
     async componentDidMount() {
         let sprints = await AsyncStorage.getItem('sprints');
@@ -109,27 +115,31 @@ export default class HomeScreen extends Component {
 
     }
     async endSprint(value){
+        await this.setState({endModalVisible: false});
+
         await this.setState({lastSprintEnd: Date.now(),lastSprintWords: this.state.totalWords - this.state.lastSprintStartTotal});
         await this.setState({lastSprint: {start:this.state.lastSprintStart,end:this.state.lastSprintEnd,words:this.state.lastSprintWords}});
         await this.setState({ sprints: [...this.state.sprints, this.state.lastSprint]});
-        await this.setState({endModalVisible: false});
         await this.setSprintData();
         await this.setTotal(this.state.totalWords);
         await this.calculateSprintStats();
-
-        this.shareSprint();
+        setTimeout(()=> {
+            this.shareSprint();
+        },500);
 
     }
 
-    async shareSprint(){
-        var sprintDuration = (this.convertTimeToMinutes(this.state.lastSprintEnd - this.state.lastSprintStart));
+    shareSprint(){
+        let sprintDuration = (this.convertTimeToMinutes(this.state.lastSprintEnd - this.state.lastSprintStart));
 
         Share.share({
             message: 'I finished a sprint with Starboard. Duration: ' + sprintDuration +
             ' minutes. Words written: ' + this.state.lastSprintWords + '. #StarboardApp #TheWriteWay',
             url: 'http://starboardwrite.com',
             title: "I finished a sprint."
-        });
+        })
+            .then(this._showResult)
+            .catch(err => console.log(err));
     }
 
     convertTimeToMinutes(timestamp){
