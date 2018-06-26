@@ -141,7 +141,7 @@ export default class HomeScreen extends Component {
 
         Share.share({
             message: 'I finished a sprint with Starboard. Duration: ' + sprintDuration +
-            ' minutes. Words written: ' + this.state.lastSprintWords + '. #StarboardApp #TheWriteWay',
+            ' minutes. Words written: ' + this.state.lastSprintWords + '. #StarboardApp #TheWriteWay #wordcount',
             url: 'http://starboardwrite.com',
             title: "I finished a sprint."
         })
