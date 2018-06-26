@@ -193,11 +193,6 @@ export default class HomeScreen extends Component {
                        style={{width: 200, height: 200}} />
                 <Text style={styles.heading}>{"Starboard!".toUpperCase()}</Text>
                 <Text style={styles.subHeading}>'tis th' write way.</Text>
-                <Text style={styles.bodytext}>Yer total words so far: {this.state.totalWords}</Text>
-                <Text style={styles.bodytext}>Yer shortest sprint: {this.state.shortestSprint} minutes</Text>
-                <Text style={styles.bodytext}>Yer longest sprint: {this.state.longestSprint} minutes</Text>
-                <Text style={styles.bodytext}>Yer average sprint length: {this.state.averageSprint} minutes</Text>
-                <Text style={styles.bodytext}>Yer total writin' time: {this.state.totalSprints} minutes</Text>
 
 
                 <TouchableHighlight
