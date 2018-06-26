@@ -21,6 +21,13 @@ import EndModal from '../components/EndModal';
 
 import {FontAwesome} from '@expo/vector-icons';
 import {styles} from '../App.style';
+import {
+    convertTimeToMinutes,
+    shortestSprint,
+    longestSprint,
+    totalSprints,
+    averageSprint
+    } from "../utils/stats";
 
 export default class HomeScreen extends Component {
 
@@ -130,7 +137,7 @@ export default class HomeScreen extends Component {
     }
 
     shareSprint(){
-        let sprintDuration = (this.convertTimeToMinutes(this.state.lastSprintEnd - this.state.lastSprintStart));
+        let sprintDuration = (convertTimeToMinutes(this.state.lastSprintEnd - this.state.lastSprintStart));
 
         Share.share({
             message: 'I finished a sprint with Starboard. Duration: ' + sprintDuration +
@@ -142,20 +149,12 @@ export default class HomeScreen extends Component {
             .catch(err => console.log(err));
     }
 
-    convertTimeToMinutes(timestamp){
-        return (timestamp/1000/60).toFixed(2);
-    }
-
-    shortestSprint = arr => this.convertTimeToMinutes(Math.min(...arr));
-    longestSprint = arr => this.convertTimeToMinutes(Math.max(...arr));
-    totalSprints = arr => this.convertTimeToMinutes(arr.reduce((a,b) => a + b, 0));
-    averageSprint = arr => this.convertTimeToMinutes(arr.reduce((a,b) => a + b, 0) / arr.length);
 
     calculateSprintStats(){
 
         let sprintArray = this.state.sprints;
 
-        let sprintDurs = sprintArray.filter(sprint => (sprint.words > 0) && (sprint.end - sprint.start > 10000))
+        let sprintDurs = sprintArray.filter(sprint => (sprint.words > 0) && (sprint.end - sprint.start > 1000))
             .map(function(sprint){
                 return (sprint.end - sprint.start);
 
@@ -164,10 +163,10 @@ export default class HomeScreen extends Component {
 
 
         this.setState({
-            shortestSprint:this.shortestSprint(sprintDurs),
-            longestSprint:this.longestSprint(sprintDurs),
-            totalSprints:this.totalSprints(sprintDurs),
-            averageSprint:this.averageSprint(sprintDurs)
+            shortestSprint:shortestSprint(sprintDurs),
+            longestSprint:longestSprint(sprintDurs),
+            totalSprints:totalSprints(sprintDurs),
+            averageSprint:averageSprint(sprintDurs)
         });
 
     }
@@ -194,6 +193,11 @@ export default class HomeScreen extends Component {
                 <Text style={styles.heading}>{"Starboard!".toUpperCase()}</Text>
                 <Text style={styles.subHeading}>'tis th' write way.</Text>
 
+                    <Text style={styles.bodytext}>Yer total words so far: {this.state.totalWords}</Text>
+                    <Text style={styles.bodytext}>Yer shortest sprint: {this.state.shortestSprint} minutes</Text>
+                    <Text style={styles.bodytext}>Yer longest sprint: {this.state.longestSprint} minutes</Text>
+                    <Text style={styles.bodytext}>Yer average sprint length: {this.state.averageSprint} minutes</Text>
+                    <Text style={styles.bodytext}>Yer total writin' time: {this.state.totalSprints} minutes</Text>
 
                 <TouchableHighlight
                     onPress={this.onPressButton}
