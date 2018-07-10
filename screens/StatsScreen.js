@@ -1,6 +1,5 @@
 import React from 'react';
 import ViewStats from '../components/ViewStats';
-import * as stats from '../utils/stats';
 import {AsyncStorage} from "react-native";
 import {totalSprints} from "../utils/stats";
 import {shortestSprint} from "../utils/stats";
@@ -30,6 +29,13 @@ export default class StatsScreen extends React.Component {
     }
 
     async componentDidMount() {
+        await this.updateSprintArray();
+        await this.calculateSprintStats();
+    }
+    async componentDidUpdate() {
+
+    }
+    async updateSprintArray(){
         let sprints = await AsyncStorage.getItem('sprints');
 
         let total = await AsyncStorage.getItem('totalWords');
@@ -40,8 +46,8 @@ export default class StatsScreen extends React.Component {
             sprints = [{start: Date.now(), end: Date.now(), words: 0}];
         }
         await this.setState({sprints: JSON.parse(sprints), totalWords: total});
-        this.calculateSprintStats();
     }
+
     calculateSprintStats(){
 
         let sprintArray = this.state.sprints;
