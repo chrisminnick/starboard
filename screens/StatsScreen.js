@@ -26,15 +26,18 @@ export default class StatsScreen extends React.Component {
             averageSprint: 0,
             debug: 'none'
         };
+        this.updateSprintArray = this.updateSprintArray.bind(this);
+        this.calculateSprintStats = this.calculateSprintStats.bind(this);
     }
 
     async componentDidMount() {
-        await this.updateSprintArray();
-        await this.calculateSprintStats();
-    }
-    async componentDidUpdate() {
+        //await this.updateStats();
+
+        this.props.navigation.addListener('didFocus', ()=>{this.updateStats()},false);
 
     }
+    
+
     async updateSprintArray(){
         let sprints = await AsyncStorage.getItem('sprints');
 
@@ -46,6 +49,7 @@ export default class StatsScreen extends React.Component {
             sprints = [{start: Date.now(), end: Date.now(), words: 0}];
         }
         await this.setState({sprints: JSON.parse(sprints), totalWords: total});
+        console.log("updated sprint array");
     }
 
     calculateSprintStats(){
@@ -67,6 +71,17 @@ export default class StatsScreen extends React.Component {
             averageSprint:averageSprint(sprintDurs)
         });
 
+    }
+
+    async updateStats(){
+        try{
+            console.log("updating stats...");
+            await this.updateSprintArray();
+            await this.calculateSprintStats();
+        }
+        catch(error){
+            console.log(error);
+        }
     }
     static navigationOptions = {
         title: 'Yer Starboard Stats',

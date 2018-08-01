@@ -1,0 +1,1 @@
+1. mute all notifications during sprint.
