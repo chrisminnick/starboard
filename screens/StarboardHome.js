@@ -21,13 +21,7 @@ import EndModal from '../components/EndModal';
 
 import {FontAwesome} from '@expo/vector-icons';
 import {styles} from '../App.style';
-import {
-    convertTimeToMinutes,
-    shortestSprint,
-    longestSprint,
-    totalSprints,
-    averageSprint
-    } from "../utils/stats";
+import {convertTimeToMinutes} from "../utils/stats";
 
 export default class HomeScreen extends Component {
 
@@ -49,7 +43,7 @@ export default class HomeScreen extends Component {
             lastSprintStart:undefined,
             lastSprintEnd:undefined,
             lastSprintWords:0,
-            totalWords: "0",
+            totalWords: 0,
             writing: false,
             lastSprint: undefined,
             sprints:[{start:Date.now(),end:Date.now(),words:0}],
@@ -81,7 +75,6 @@ export default class HomeScreen extends Component {
             sprints = [{start:Date.now(),end:Date.now(),words:0}];
         }
         await this.setState({sprints:JSON.parse(sprints),totalWords:total});
-        this.calculateSprintStats();
     }
 
     async setSprintData() {
@@ -129,7 +122,6 @@ export default class HomeScreen extends Component {
         await this.setState({ sprints: [...this.state.sprints, this.state.lastSprint]});
         await this.setSprintData();
         await this.setTotal(this.state.totalWords);
-        await this.calculateSprintStats();
         setTimeout(()=> {
             this.shareSprint();
         },500);
@@ -150,26 +142,6 @@ export default class HomeScreen extends Component {
     }
 
 
-    calculateSprintStats(){
-
-        let sprintArray = this.state.sprints;
-
-        let sprintDurs = sprintArray.filter(sprint => (sprint.words > 0) && (sprint.end - sprint.start > 1000))
-            .map(function(sprint){
-                return (sprint.end - sprint.start);
-
-            });
-
-
-
-        this.setState({
-            shortestSprint:shortestSprint(sprintDurs),
-            longestSprint:longestSprint(sprintDurs),
-            totalSprints:totalSprints(sprintDurs),
-            averageSprint:averageSprint(sprintDurs)
-        });
-
-    }
 
     render() {
         return (

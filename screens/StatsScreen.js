@@ -33,7 +33,7 @@ export default class StatsScreen extends React.Component {
     async componentDidMount() {
         //await this.updateStats();
 
-        this.props.navigation.addListener('didFocus', ()=>{this.updateStats()},false);
+        this.props.navigation.addListener('didFocus', ()=>this.updateStats(),false);
 
     }
     
@@ -46,8 +46,9 @@ export default class StatsScreen extends React.Component {
             total = "0";
         }
         if (!sprints) {
-            sprints = [{start: Date.now(), end: Date.now(), words: 0}];
+            sprints = JSON.stringify([{start: Date.now(), end: Date.now(), words: 0}]);
         }
+        console.log(sprints);
         await this.setState({sprints: JSON.parse(sprints), totalWords: total});
         console.log("updated sprint array");
     }
@@ -56,13 +57,10 @@ export default class StatsScreen extends React.Component {
 
         let sprintArray = this.state.sprints;
 
-        let sprintDurs = sprintArray.filter(sprint => (sprint.words > 0) && (sprint.end - sprint.start > 1000))
-            .map(function(sprint){
+        let sprintDurs = sprintArray.map(function(sprint){
                 return (sprint.end - sprint.start);
 
             });
-
-
 
         this.setState({
             shortestSprint:shortestSprint(sprintDurs),
@@ -75,8 +73,9 @@ export default class StatsScreen extends React.Component {
 
     async updateStats(){
         try{
-            console.log("updating stats...");
+            console.log("updateStats");
             await this.updateSprintArray();
+            console.log("calculate");
             await this.calculateSprintStats();
         }
         catch(error){
@@ -86,6 +85,7 @@ export default class StatsScreen extends React.Component {
     static navigationOptions = {
         title: 'Yer Starboard Stats',
     };
+
 
 
     render() {
