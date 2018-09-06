@@ -66,7 +66,8 @@ export default class StatsScreen extends React.Component {
             shortestSprint:shortestSprint(sprintDurs),
             longestSprint:longestSprint(sprintDurs),
             totalSprints:totalSprints(sprintDurs),
-            averageSprint:averageSprint(sprintDurs)
+            averageSprint:averageSprint(sprintDurs),
+            sprintDurs:sprintDurs
         });
 
     }

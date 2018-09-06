@@ -9,10 +9,17 @@
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
+    "d3-array": "^1.2.0",
+    "d3-scale": "^1.0.6",
+    "d3-shape": "^1.0.6",
     "expo": "^27.0.1",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
-    "react-navigation": "^2.0.0"
+    "react-native-svg": "^6.5.2",
+    "react-native-svg-charts": "^5.2.0",
+    "react-navigation": "^2.0.0",
+    "react-svg": "^6.0.6",
+    "victory-native": "^30.3.0"
   },
   "devDependencies": {
     "jest-expo": "^27.0.0",
